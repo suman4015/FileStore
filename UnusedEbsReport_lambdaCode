@@ -1,0 +1,54 @@
+import json
+import boto3
+from datetime import date
+from datetime import datetime
+import os
+
+ec2 = boto3.client('ec2')
+sns_client = boto3.client('sns')
+unused_volumes = []
+volumes = ec2.describe_volumes()
+threshold_day_count = 15
+
+def lambda_handler(event, context):
+    print(f'There are total {len(volumes)} Volumes')
+    print(volumes)
+    for vol in volumes['Volumes']:
+        if len(vol['Attachments']) == 0:
+            today = date.today()
+            #todatetime = datetime.now()
+            createdDate = (vol['CreateTime']).date()
+            dateDiff = today - createdDate
+            unusedVol = f"Unused volume id: {vol['VolumeId']}  Created On: {createdDate}  Age: {dateDiff.days} days"
+            #print(f"Volume age is {dateDiff.days}")
+            if dateDiff.days >= threshold_day_count:
+                unused_volumes.append(unusedVol)
+            
+            
+    print('Unused vloumes are below')
+    print(str(unused_volumes))
+    if len(unused_volumes) > 0:
+        sendEmail(unused_volumes,threshold_day_count)
+        print('Mail notification sent')
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Hello from Lambda!')
+    }
+def sendEmail(unused_volumes,threshold_day_count):
+    sns_arn = os.environ['snsARN']
+    snsclient = boto3.client('sns')
+    try:
+        msg = f"Following is the list of unsed EBS Volumes avalable for {threshold_day_count} days, can be deleted\n\n"
+        lno = 1
+        for vol in unused_volumes:
+            msg += f"{lno}. {vol} \n\n" 
+            lno = lno + 1
+        
+        
+        snsclient.publish(
+            TargetArn = sns_arn,
+            Subject = f"Unused EBS Volumes list, As older as {threshold_day_count} days, Can be deleted",
+            Message = msg
+            )
+    except ClientError as e:
+        print(f'An error ocoured - {e}')
