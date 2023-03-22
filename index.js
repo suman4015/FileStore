@@ -21,5 +21,4 @@ function printMsg(){
     	error: function () {
          	alert("Unsuccessful!");
     	}});
-});
 }
