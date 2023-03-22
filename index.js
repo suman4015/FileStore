@@ -2,10 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("Hello World!");
 }); 
 var data = {
-    fullName : name,
-    phone : phone,
-    email : email,
-    desc : desc
+    fullName : "Sanchin",
+    Dept : "Professor"
 };
 function printMsg(){
 	window.alert('Hello There');
