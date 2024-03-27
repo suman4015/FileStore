@@ -1,0 +1,47 @@
+import requests
+import json
+import hawk
+
+# Replace these values with your own OAuth2 client ID and secret
+client_id = 'your-client-id'
+client_secret = 'your-client-secret'
+
+# The URL to request an access token from
+token_url = 'https://example.com/oauth2/token'
+
+# The URL of the API endpoint you want to access
+api_endpoint = 'https://example.com/api/'
+
+def lambda_handler(event, context):
+    # Request an access token using the client credentials grant type
+    auth = hawk.Client(client_id=client_id, client_key=client_secret)
+    headers = {
+        'Authorization': auth.header('GET', token_url),
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    data = {'grant_type': 'client_credentials'}
+    response = requests.post(token_url, headers=headers, data=data)
+
+    if response.status_code != 200:
+        raise Exception('Failed to obtain access token: {}'.format(response.text))
+
+    # Extract the access token from the response
+    access_token = response.json()['access_token']
+
+    # Use the access token to authenticate the API request
+    auth = hawk.Client(client_id=client_id, client_key=access_token)
+    headers = {
+        'Authorization': auth.header('GET', api_endpoint),
+        'Content-Type': 'application/json'
+    }
+
+    # Make the API request
+    response = requests.get(api_endpoint, headers=headers)
+
+    if response.status_code == 200:
+        return {
+            'statusCode': 200,
+            'body': json.dumps({'message': 'API request successful', 'result': response.json()})
+        }
+    else:
+        raise Exception('API request failed: {}'.format(response.text))
