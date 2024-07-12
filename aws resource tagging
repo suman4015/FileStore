@@ -2,3 +2,5 @@ aws ec2 describe-instances --filters Name=instance-state-name,Values=running Nam
 
 
 aws efs describe-file-systems --query FileSystems[?Name == \`dev-spring\`].FileSystemId
+
+aws efs describe-file-systems --query 'FileSystems[?contains(Tags[?Key==`Name`].Value, `my-string`) == `true`].FileSystemId' --output text
