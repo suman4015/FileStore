@@ -4,3 +4,10 @@ aws ec2 describe-instances --filters Name=instance-state-name,Values=running Nam
 aws efs describe-file-systems --query FileSystems[?Name == \`dev-spring\`].FileSystemId
 
 aws efs describe-file-systems --query 'FileSystems[?contains(Tags[?Key==`Name`].Value, `my-string`) == `true`].FileSystemId' --output text
+
+
+to describe snapshot list. May fail if name tag doesn't present
+aws ec2 describe-snapshots --query 'Snapshots[*].[SnapshotId, Description, Size, TaggedResourceType, Tags[?Key==`Name`].Value|[0]]' --output table
+
+It will display all the tags available for every snapshot, thus avoiding failure due to missing 'Name' attribute.
+aws ec2 describe-snapshots --query 'Snapshots[*].[SnapshotId, Description, Size, TaggedResourceType, Tags[].{Name: Value}]' --output table
