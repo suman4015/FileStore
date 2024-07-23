@@ -18,3 +18,22 @@ aws ec2 describe-snapshots --owner-ids self --query 'Snapshots[*].[SnapshotId, D
 Private snapshots
 aws ec2 describe-snapshots --filters Name=status,Values=available Name=owner-alias,Values=amazon OwnerIds='["self"]' --query 'Snapshots[*].[SnapshotId, StartTime, VolumeId, State, OwnerAlias, Tags[?Key==`Name`].Value|[0], Description, Size ]' --output table
 
+
+start_ts="2022-01-01T00:00:00Z"
+end_ts="2022-01-03T00:00:00Z"
+
+# Convert input strings to epoch seconds
+start_epoch=$(date -d "${start_ts}" +"%s")
+end_epoch=$(date -d "${end_ts}" +"%s")
+
+# Calculate the difference in seconds
+diff=$(( end_epoch - start_epoch ))
+
+# Divide seconds by the number of seconds in a day (86400) to find the difference in days
+days=$((( diff / 86400 )))
+
+echo "Difference in Days: $days"
+
+
+
+
