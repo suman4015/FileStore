@@ -1,0 +1,12 @@
+rds = boto3.client('rds')
+
+    # Get list of all DB instances
+    db_instances = rds.describe_db_instances()
+
+    # Iterate through instances and print info
+    for db_instance in db_instances['DBInstances']:
+        print("DB Instance ID:", db_instance['DBInstanceIdentifier'])
+        print("Engine:", db_instance['Engine'])
+        print("Status:", db_instance['DBInstanceStatus'])
+        print("Publicly accessible?:", db_instance['PubliclyAccessible'])
+        print("---------------------")
