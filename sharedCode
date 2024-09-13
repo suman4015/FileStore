@@ -1,12 +1,26 @@
-rds = boto3.client('rds')
+Business Objectives:
 
-    # Get list of all DB instances
-    db_instances = rds.describe_db_instances()
+Migrate files from on-premises storage to AWS cloud for improved scalability, reliability, and cost savings.
+Implement robust monitoring, alerting, and disaster recovery mechanisms to ensure business continuity and minimize downtime.
+Automate repetitive tasks such as file processing, backups, and notifications using serverless technologies.
+Improve collaboration and productivity by creating interactive dashboards for real-time insights into system performance and usage patterns.
+Program Highlights:
 
-    # Iterate through instances and print info
-    for db_instance in db_instances['DBInstances']:
-        print("DB Instance ID:", db_instance['DBInstanceIdentifier'])
-        print("Engine:", db_instance['Engine'])
-        print("Status:", db_instance['DBInstanceStatus'])
-        print("Publicly accessible?:", db_instance['PubliclyAccessible'])
-        print("---------------------")
+Utilized AWS CloudFormation to provision and manage infrastructure resources including S3 buckets, IAM roles, EC2 instances, and KMS keys.
+Developed Lambda functions to automate monitoring, alerting, and file processing tasks, reducing manual effort and improving response time.
+Leveraged EC2, EBS volumes, Route53, EFS, RDS, and DynamoDB for storing data, ensuring high availability and durability.
+Implemented version control using GitLab CI/CD and Jenkins, enabling efficient code management and deployment.
+Used CloudWatch, AppDynamics, and Cloud Watch Agent for monitoring and alerting purposes, providing proactive issue detection and resolution.
+Transferred files using MoveIt App, NFS, and Storage Gateway, supporting seamless integration with existing systems.
+Set up cross-account access using S3 policies and IAM roles, enhancing security and flexibility.
+Optimized costs using S3 to NFS, EBS snapshot backup deletion scripts, and Commvault backups for EC2 and EBS.
+Used SNS topics, SES, and Microsoft Teams integrations for notifications and alerts, keeping stakeholders informed.
+Implemented disaster recovery solutions using S3 replication, Glue replication, and AWS Backup, minimizing risk and maximizing uptime.
+Business Benefits:
+
+Increased scalability and reliability through automated processes and managed services.
+Enhanced collaboration and productivity via interactive dashboards and streamlined workflows.
+Strengthened security posture through least privilege access controls and secure data transfers.
+Reduced operational overhead and total cost of ownership (TCO) through optimized resource utilization and automation.
+Improved visibility and control over IT operations with centralized monitoring and alerting capabilities.
+Minimized disruptions and downtime through effective disaster recovery planning and execution.
