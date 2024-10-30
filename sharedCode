@@ -9,3 +9,24 @@ aws storagegateway create-nfs-file-share \
 --protocol NFS3 \
 --server-hostname "myfiles.example.com" \
 --server-ip-addresses "192.168.1.100 192.168.1.101"
+
+
+aws s3api put-bucket-replication \
+--bucket your-bucket-name \
+--replication-configuration '{
+  "Role": "arn:aws:iam::123456789012:role/s3-replication-role",
+  "Rules": [
+    {
+      "Status": "Enabled",
+      "Destination": {
+        "Bucket": "arn:aws:s3:::your-bucket-name",
+        "StorageClass": "STANDARD"
+      },
+      "Prefix": "source-folder/",
+      "Filter": {
+        "Prefix": "source-folder/"
+      },
+      "DestinationPrefix": "destination-folder/"
+    }
+  ]
+}'
