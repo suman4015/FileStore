@@ -30,3 +30,10 @@ aws s3api put-bucket-replication \
     }
   ]
 }'
+
+
+aws datasync create-location-s3 --s3-bucket-arn arn:aws:s3:::your-bucket-name --s3-config Subdirectory=/source/folder/
+
+aws datasync create-location-s3 --s3-bucket-arn arn:aws:s3:::your-bucket-name --s3-config Subdirectory=/destination/folder/
+
+aws datasync create-task --source-location-arn <source-location-arn> --destination-location-arn <destination-location-arn> --cloud-watch-log-group-arn arn:aws:logs:region:account-id:log-group:log-group-name --name your-task-name
