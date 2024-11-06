@@ -1,39 +1,10 @@
-aws storagegateway create-nfs-file-share \
---client-token "12345678-1234-1234-1234-123456789012" \
---default-storage-class S3_STANDARD \
---file-share-name "myFileShare" \
---role "arn:aws:iam::123456789012:role/myRole" \
---location-arn "arn:aws:storagegateway:us-east-1:123456789012:gateway/sgw-12345678" \
---bucket-arn "arn:aws:s3:::myBucket" \
---key "path/to/my/directory/" \
---protocol NFS3 \
---server-hostname "myfiles.example.com" \
---server-ip-addresses "192.168.1.100 192.168.1.101"
+Here are the two-line descriptions for each of the three sections:
 
+**Overview**
+This solution utilizes AWS Lambda and SNS Topic to integrate with Microsoft Teams, enabling real-time notifications for critical events triggered by AWS Glue Jobs. By leveraging a webhook URL, notifications are seamlessly sent to a designated Teams channel, ensuring timely awareness and action among team members.
 
-aws s3api put-bucket-replication \
---bucket your-bucket-name \
---replication-configuration '{
-  "Role": "arn:aws:iam::123456789012:role/s3-replication-role",
-  "Rules": [
-    {
-      "Status": "Enabled",
-      "Destination": {
-        "Bucket": "arn:aws:s3:::your-bucket-name",
-        "StorageClass": "STANDARD"
-      },
-      "Prefix": "source-folder/",
-      "Filter": {
-        "Prefix": "source-folder/"
-      },
-      "DestinationPrefix": "destination-folder/"
-    }
-  ]
-}'
+**Key Concepts**
+The solution architecture comprises four key components: AWS Glue Job events, AWS Lambda function, SNS Topic, and Microsoft Teams Webhook URL, working in tandem to facilitate event-driven notifications. The Lambda function acts as the bridge between the Glue Job event and SNS Topic, processing the event and triggering notifications to Teams via the Webhook URL.
 
-
-aws datasync create-location-s3 --s3-bucket-arn arn:aws:s3:::your-bucket-name --s3-config Subdirectory=/source/folder/
-
-aws datasync create-location-s3 --s3-bucket-arn arn:aws:s3:::your-bucket-name --s3-config Subdirectory=/destination/folder/
-
-aws datasync create-task --source-location-arn <source-location-arn> --destination-location-arn <destination-location-arn> --cloud-watch-log-group-arn arn:aws:logs:region:account-id:log-group:log-group-name --name your-task-name
+**Benefits**
+Real-time alerting in Teams enables teams to respond promptly to critical events, reducing mean time to detect (MTTD) and mean time to resolve (MTTR) issues, ultimately improving overall system reliability and uptime. By integrating with Teams, this solution streamlines communication and collaboration, ensuring that stakeholders are informed and aligned in real-time, and can take swift action to address critical events.
