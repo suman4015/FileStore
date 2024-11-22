@@ -1,10 +1,7 @@
-Here are the two-line descriptions for each of the three sections:
+cloud_init_modules:
+ - scripts-per-boot
 
-**Overview**
-This solution utilizes AWS Lambda and SNS Topic to integrate with Microsoft Teams, enabling real-time notifications for critical events triggered by AWS Glue Jobs. By leveraging a webhook URL, notifications are seamlessly sent to a designated Teams channel, ensuring timely awareness and action among team members.
+cloud_final_modules:
+ - scripts-per-boot
 
-**Key Concepts**
-The solution architecture comprises four key components: AWS Glue Job events, AWS Lambda function, SNS Topic, and Microsoft Teams Webhook URL, working in tandem to facilitate event-driven notifications. The Lambda function acts as the bridge between the Glue Job event and SNS Topic, processing the event and triggering notifications to Teams via the Webhook URL.
-
-**Benefits**
-Real-time alerting in Teams enables teams to respond promptly to critical events, reducing mean time to detect (MTTD) and mean time to resolve (MTTR) issues, ultimately improving overall system reliability and uptime. By integrating with Teams, this solution streamlines communication and collaboration, ensuring that stakeholders are informed and aligned in real-time, and can take swift action to address critical events.
+cloud.cfg
