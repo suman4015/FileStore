@@ -1,6 +1,28 @@
-<appdynamics-agent>
-  <controller host="your-controller-host" port="443" ssl="true"/>
-  <application name="YourAppname" />
-  <tier name="YourTiername" />
-  <!-- Other configuration settings... -->
-</appdynamics-agent>
+#!/bin/bash
+
+# chkconfig: 2345 80 20
+# description: AppDynamics Agent
+
+AGENT_HOME=/opt/appdynamics/agent
+AGENT_JAR=appdynamics-agent.jar
+
+start() {
+  su - appdynamics -c "java -jar $AGENT_HOME/$AGENT_JAR -Dappdynamics.agent.applicationName=<YourAppname> -Dappdynamics.agent.tierName=<YourTiername>"
+}
+
+stop() {
+  pkill -f $AGENT_JAR
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+esac
