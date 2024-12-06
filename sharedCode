@@ -1,7 +1,6 @@
-cloud_init_modules:
- - scripts-per-boot
-
-cloud_final_modules:
- - scripts-per-boot
-
-cloud.cfg
+<appdynamics-agent>
+  <controller host="your-controller-host" port="443" ssl="true"/>
+  <application name="YourAppname" />
+  <tier name="YourTiername" />
+  <!-- Other configuration settings... -->
+</appdynamics-agent>
